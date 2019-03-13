@@ -1,24 +1,61 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Flaskr</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<nav>
-  <h1>Flaskr</h1>
-  <ul>
-    {% if g.user %}
-      <li><span>{{ g.user['username'] }}</span>
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
-    {% else %}
-      <li><a href="{{ url_for('auth.register') }}">Register</a>
-      <li><a href="{{ url_for('auth.login') }}">Log In</a>
-    {% endif %}
-  </ul>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.gradient.min.css') }}">
+    <script src="{{ url_for('static', filename='jquery/dist/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/uikit.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lapp/src/live2d.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='lapp/src/Live2DFramework.js')}}"></script>
+    <script src="{{ url_for('static', filename='lapp/src/utils/MatrixStack.js')}}"></script>
+    <script src="{{ url_for('static', filename='lapp/src/utils/ModelSettingJson.js')}}"></script>
+    <script src="{{ url_for('static', filename='lapp/src/PlatformManager.js')}}"></script>
+    <script src="{{ url_for('static', filename='lapp/src/LAppDefine.js')}}"></script>
+    <script src="{{ url_for('static', filename='lapp/src/LAppModel.js')}}"></script>
+    <script src="{{ url_for('static', filename='lapp/src/LAppLive2DManager.js')}}"></script>
+    <script src="{{ url_for('static', filename='lapp/src/SampleApp1.js')}}"></script>
+    <title>{% block title %}{% endblock %} - Flaskr</title>
+
+</head>
+<body onload="sampleApp1('{{ url_for('static', filename='lapp/assets/hibiki/hibiki.model.json')}}')">
+
+<nav class="uk-navbar">
+    <a class="uk-navbar-brand" href="{{url_for('blog.index')}}">Flaskr</a>
+
+    <div class="uk-navbar-flip">
+        <ul class="uk-navbar-nav">
+            {% if g.user %}
+
+            <li class="uk-parent" data-uk-dropdown><a href=""> {{ g.user['username'] }} </a>
+                <div class="uk-dropdown uk-dropdown-navbar">
+                    <ul class="uk-nav uk-nav-navbar">
+                        <li><a href="{{ url_for('blog.create') }}">New</a>
+                        <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+                    </ul>
+                </div>
+                {% else %}
+            <li><a href="{{ url_for('auth.register') }}">Register</a>
+            <li><a href="{{ url_for('auth.login') }}">Log In</a>
+                {% endif %}
+        </ul>
+    </div>
+
 </nav>
+
+
 <section class="content">
-  <header>
-    {% block header %}{% endblock %}
-  </header>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-  {% block content %}{% endblock %}
+    <div class="uk-width-3-5 uk-container-center">
+        {% block header %}{% endblock %}
+        {% for message in get_flashed_messages() %}
+        <div class="uk-alert uk-alert-danger" data-uk-alert>
+            <a href="" class="uk-alert-close uk-close"></a>
+            <p>{{ message }}</p>
+        </div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </div>
 </section>
+<div class="uk-position-bottom-right">
+<canvas id="glcanvas"  width="300" height="500">
+</canvas>
+
+</div>
+</body>
