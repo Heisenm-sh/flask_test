@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Edit "{{ post['title'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<form class="uk-form" method="post">
+    <div class="uk-form-row ">
+        <label for="title" class="uk-form-label ">Title</label>
+        <div class="uk-form-controls">
+            <input name='title' id='title' class="uk-width-1-4" type="text" placeholder="..."
+                   value="{{ request.form['title'] or post['title']}}">
+        </div>
+    </div>
+
+    <div class="uk-form-row">
+        <label for="body" class="uk-form-label ">Article</label>
+        <div class="uk-form-controls">
+            <textarea name="body" id='body' cols="10" rows="10" class="uk-width-1-2"
+                      placeholder="...">{{ request.form['body']or post['body'] }}</textarea>
+        </div>
+    </div>
+    <div class="uk-form-row">
+        <button class="uk-button" type="submit">Save</button>
+    </div>
+</form>
+<hr>
+
+<button class="uk-button" data-uk-modal="{target:'#modal6'}">Delete</button>
+<form action="{{ url_for('blog.delete', id=post['id']) }}" method="post">
+    <div id="modal6" class="uk-modal">
+        <div class="uk-modal-dialog">
+            <button type="button" class="uk-modal-close uk-close"></button>
+            <div class="uk-modal-header">
+                <h2>Waring</h2>
+            </div>
+            <p>Are you sure？</p>
+            <div class=" flex uk-modal-footer uk-text-right">
+
+                <button type="button" class="uk-button uk-modal-close ">Cancel</button>
+                <button type="submit" class="uk-button uk-button-primary">Delete</button>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{% endblock %}
